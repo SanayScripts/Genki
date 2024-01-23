@@ -1,2 +1,2 @@
 # Genki
- The local repo for my Final Year project
+ The repo for my Final Year project
