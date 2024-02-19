@@ -15,7 +15,7 @@ stage_r = None
 
 ## Setup mediapipe instance
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-    while cap.isOpened():
+    while cap.isOpened():   
         ret, frame = cap.read()
 
         # Recolor image to RGB
@@ -68,13 +68,13 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)          
 
             # Curl counter logic for both arms
-            if angle_l > 160:
+            if angle_l > 155:
                 stage_l = "down"
             if angle_l < 30 and stage_l == "down":
                 stage_l = "up"
                 counter_l += 1
 
-            if angle_r > 160:
+            if angle_r > 155:
                 stage_r = "down"
             if angle_r < 30 and stage_r == "down":
                 stage_r = "up"

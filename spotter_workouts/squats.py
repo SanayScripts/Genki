@@ -7,14 +7,6 @@ mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
 
-# Making the video window our desired size
-aspect_ratio = cap.get(cv2.CAP_PROP_FRAME_WIDTH) / cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # width/height
-new_height = 800  
-new_width = int(new_height * aspect_ratio)
-
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, new_width)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, new_height)
-
 counter = 0
 stage = None
 
