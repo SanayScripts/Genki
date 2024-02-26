@@ -1,6 +1,10 @@
 import cv2
 import mediapipe as mp 
 import numpy as np 
+import csv
+import datetime
+import os 
+
 mp_drawing = mp.solutions.drawing_utils #This gives all drawing utilities like for visualising poses and stuff
 mp_pose = mp.solutions.pose #grabbing pose estimation models
 
@@ -13,8 +17,10 @@ counter_r = 0
 stage_l = None
 stage_r = None
 
-## Setup mediapipe instance
-with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+start_time = datetime.datetime.now()
+
+## Setup mediapipe instance0
+with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7) as pose:
     while cap.isOpened():   
         ret, frame = cap.read()
 
@@ -117,6 +123,23 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
 
         if cv2.waitKey(10) & 0xFF == ord('q'): #if window is closed or q is pressed:
             break
+
+    end_time = datetime.datetime.now()
+    session_duration = end_time - start_time
+
+    # Save session data to CSV file
+    csv_file_path = "res/session_data.csv"
+
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
+
+    # Define the exercise name
+    exercise_name = "Bicep Curls"  
+
+    with open(csv_file_path, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Exercise Name', 'Session Start Time', 'Session End Time', 'Session Duration', 'Reps Left', 'Reps Right'])
+        writer.writerow([exercise_name, start_time.strftime("%d/%m/%Y %H:%M:%S"), end_time.strftime("%d/%m/%Y %H:%M:%S"), str(session_duration), str(counter_l), str(counter_r)])
 
     cap.release() #bye webcam
     cv2.destroyAllWindows() #ded window

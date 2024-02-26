@@ -1,14 +1,18 @@
 import cv2
 import mediapipe as mp 
 import numpy as np 
+import csv
+import datetime
+import os 
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
-
 counter = 0
 stage = None
+
+start_time = datetime.datetime.now()
 
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
     while cap.isOpened():
@@ -82,6 +86,24 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
+    end_time = datetime.datetime.now()
+    session_duration = end_time - start_time
+
+# Save session data to CSV file
+csv_file_path = "res/session_data.csv"
+
+# Ensure the directory exists
+os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
+
+# Define the exercise name
+exercise_name = "Squats"  
+
+with open(csv_file_path, mode='a', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Exercise Name', 'Session Start Time', 'Session End Time', 'Session Duration', 'Reps'])
+    writer.writerow([exercise_name, start_time.strftime("%d/%m/%Y %H:%M:%S"), end_time.strftime("%d/%m/%Y %H:%M:%S"), str(session_duration), str(counter)])
+
+
 
     cap.release()
     cv2.destroyAllWindows()
