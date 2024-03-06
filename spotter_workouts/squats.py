@@ -82,7 +82,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
 
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
-        cv2.imshow('Mediapipe Feed', image)
+        cv2.imshow('Genki Spotter', image)
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break

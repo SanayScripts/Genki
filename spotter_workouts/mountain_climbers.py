@@ -4,17 +4,12 @@ import numpy as np
 import csv
 import datetime
 import os 
+from tkinter import messagebox
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
-# Set video capture resolution
-cap_width = 1280
-cap_height = 720
-
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, cap_width)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, cap_height)
 
 counter_l = 0
 counter_r = 0
@@ -23,13 +18,20 @@ stage_r = None
 
 start_time = datetime.datetime.now()
 
+csv_file_path = "res/session_data.csv"
+
+# Ensure the directory exists
+os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
+
+# Define the exercise name
+exercise_name = "Mtn Climbers"  
+
 with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7) as pose:
     while cap.isOpened():   
         ret, frame = cap.read()
 
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image.flags.writeable = False
-
         results = pose.process(image)
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
@@ -62,11 +64,11 @@ with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7) as 
             angle_r = calculate_angle(r_hip, r_knee, r_ankle)
 
             cv2.putText(image, str(angle_l),
-                        tuple(np.multiply(l_knee, [cap_width, cap_height]).astype(int)),
+                        tuple(np.multiply(l_knee, [640,480]).astype(int)),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
 
             cv2.putText(image, str(angle_r),
-                        tuple(np.multiply(r_knee, [cap_width, cap_height]).astype(int)),
+                        tuple(np.multiply(r_knee, [640,480]).astype(int)),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
 
             if angle_l > 160:
@@ -107,27 +109,22 @@ with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7) as 
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
 
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-        cv2.imshow('Mediapipe Feed', image)
+        cv2.imshow('Genki', image)
 
-        if cv2.waitKey(10) & 0xFF == ord('q'):
+        if cv2.waitKey(10) & 0xFF == ord('q'): 
+            confirmation = messagebox.askquestion("Genki", "Are you sure you want to save the data to CSV?")
+            if confirmation == 'yes':
+                end_time = datetime.datetime.now()
+                session_duration = end_time - start_time
+                formatted_duration = str(session_duration)[:-7]
+                total_reps = counter_l + counter_r
+                
+                with open(csv_file_path, mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([exercise_name, str(formatted_duration), start_time.strftime("%d/%m/%Y"), str(total_reps)])
+
+                messagebox.showinfo("Genki", "Data saved to CSV successfully.")
             break
-
-    end_time = datetime.datetime.now()
-    session_duration = end_time - start_time
-
-# Save session data to CSV file
-csv_file_path = "res/session_data.csv"
-
-# Ensure the directory exists
-os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
-
-# Define the exercise name
-exercise_name = "Mountain Climbers"  
-
-with open(csv_file_path, mode='a', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['Exercise Name', 'Session Start Time', 'Session End Time', 'Session Duration', 'Reps Left', 'Reps Right'])
-    writer.writerow([exercise_name, start_time.strftime("%d/%m/%Y %H:%M:%S"), end_time.strftime("%d/%m/%Y %H:%M:%S"), str(session_duration), str(counter_l), str(counter_r)])
 
 cap.release()
 cv2.destroyAllWindows()

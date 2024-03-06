@@ -1,16 +1,8 @@
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps Left,Reps Right
-Mountain Climbers,26/02/2024 16:26:53,26/02/2024 16:28:06,0:01:12.589013,17,17
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:36:17,26/02/2024 16:36:57,0:00:40.036737,6
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:37:25,26/02/2024 16:37:49,0:00:23.599601,6
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:42:35,26/02/2024 16:42:47,0:00:12.500672,142
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:42:58,26/02/2024 16:43:08,0:00:09.502608,91
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:43:16,26/02/2024 16:43:24,0:00:07.380806,79
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:43:50,26/02/2024 16:44:00,0:00:10.418490,6
-Exercise Name,Session Start Time,Session End Time,Session Duration,Reps
-Pushups,26/02/2024 16:46:53,26/02/2024 16:47:51,0:00:58.625268,15
+Exercise Name ,Session Duration ,Date       ,Reps
+Bicep Curls   ,0:00:45          ,06/03/2024 ,  40
+Bicep Curls   ,0:00:35          ,06/03/2024 ,  26
+Pushups       ,0:01:05          ,06/03/2024 ,  11
+Leg Raises    ,0:01:15          ,06/03/2024 ,  10
+OH Press      ,0:01:01          ,06/03/2024 ,  20
+Mtn Climbers  ,0:00:11          ,06/03/2024 ,   1
+Mtn Climbers  ,0:00:36          ,06/03/2024 ,  18
