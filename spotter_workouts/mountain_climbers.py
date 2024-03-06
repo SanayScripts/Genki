@@ -26,7 +26,7 @@ os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
 # Define the exercise name
 exercise_name = "Mtn Climbers"  
 
-with mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7) as pose:
+with mp_pose.Pose(min_detection_confidence=0.6, min_tracking_confidence=0.6) as pose:
     while cap.isOpened():   
         ret, frame = cap.read()
 
