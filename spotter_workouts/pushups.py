@@ -10,7 +10,6 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 cap = cv2.VideoCapture(0)
-
 counter = 0
 stage = None
 

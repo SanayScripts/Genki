@@ -4,6 +4,7 @@ import numpy as np
 import csv
 import datetime
 import os 
+from tkinter import messagebox
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -14,13 +15,20 @@ stage = None
 
 start_time = datetime.datetime.now()
 
-with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+csv_file_path = "res/session_data.csv"
+
+# Ensure the directory exists
+os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
+
+# Define the exercise name
+exercise_name = "Squats"  
+
+with mp_pose.Pose(min_detection_confidence=0.6, min_tracking_confidence=0.6) as pose:
     while cap.isOpened():
         ret, frame = cap.read()
 
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image.flags.writeable = False
-
         results = pose.process(image)
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
@@ -81,29 +89,21 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                     )
 
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        cv2.imshow('Genki', image)
 
-        cv2.imshow('Genki Spotter', image)
+        if cv2.waitKey(10) & 0xFF == ord('q'): 
+            confirmation = messagebox.askquestion("Genki", "Are you sure you want to save the data to CSV?")
+            if confirmation == 'yes':
+                end_time = datetime.datetime.now()
+                session_duration = end_time - start_time
+                formatted_duration = str(session_duration)[:-7]
+                
+                with open(csv_file_path, mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([exercise_name, str(formatted_duration), start_time.strftime("%d/%m/%Y"), str(counter)])
 
-        if cv2.waitKey(10) & 0xFF == ord('q'):
+                messagebox.showinfo("Genki", "Data saved to CSV successfully.")
             break
-    end_time = datetime.datetime.now()
-    session_duration = end_time - start_time
-
-# Save session data to CSV file
-csv_file_path = "res/session_data.csv"
-
-# Ensure the directory exists
-os.makedirs(os.path.dirname(csv_file_path), exist_ok=True)
-
-# Define the exercise name
-exercise_name = "Squats"  
-
-with open(csv_file_path, mode='a', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(['Exercise Name', 'Session Start Time', 'Session End Time', 'Session Duration', 'Reps'])
-    writer.writerow([exercise_name, start_time.strftime("%d/%m/%Y %H:%M:%S"), end_time.strftime("%d/%m/%Y %H:%M:%S"), str(session_duration), str(counter)])
-
-
 
     cap.release()
     cv2.destroyAllWindows()
