@@ -18,17 +18,11 @@ To get started with Genki, simply follow the download procedures! We cannot wait
 
 At Genki, we're passionate about making fitness accessible to everyone. Our team is committed to creating innovative solutions that empower individuals to lead healthier, happier lives.
 
-Meet the Team:
-- Sanay Patil
-- Atharva Dalvi
-- Anuj Bhandare
-- Yash Shingan
-
 ## Contact Us:
 
 We value your feedback and are here to assist you with any questions or concerns you may have. Feel free to reach out to us through the following channels:
 - **Send us an Email at:** patilsanay1275@gmail.com
-- **Hit us up on LinkedIn:** [Sanay Patil](www.linkedin.com/in/sanay-patil-723979268) 
-- **Send us a DM on Instagram:** [Sanay Patil](link)
+- **Hit us up on LinkedIn:** [Sanay Patil](https://www.linkedin.com/in/sanaypatil/) 
+- **Send us a DM on Instagram:** [Sanay Patil](https://www.instagram.com/sanay.was.taken/)
 
 Let's embark on this journey to a healthier, fitter you with Genki!
